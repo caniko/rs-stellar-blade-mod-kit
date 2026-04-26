@@ -1,0 +1,19 @@
+/target/
+/result
+/result-*
+/.direnv/
+/.envrc
+*.dll
+*.pdb
+*.lib
+*.exp
+
+# Local-only game, UE4SS, and generated Unreal data.
+/game/
+/dumps/
+/sdk/
+/ue-project/
+*.pak
+*.ucas
+*.utoc
+*.usmap
