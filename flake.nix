@@ -80,12 +80,16 @@
         inherit (toolchain) craneLib;
         checks = self.checks.${system};
         packages = with pkgs; [
+          cmake
           cargo-nextest
+          gcc
+          ninja
           rust-analyzer
         ];
         extraShellHook = ''
           echo "Stellar Blade Bouldy modkit"
           echo "Native:  cargo test"
+          echo "C++:     cmake -S loader/ue4ss-cpp -B target/ue4ss-cpp -G Ninja && cmake --build target/ue4ss-cpp && ctest --test-dir target/ue4ss-cpp"
           echo "Windows: cargo build --release --target x86_64-pc-windows-gnu"
         '';
       };

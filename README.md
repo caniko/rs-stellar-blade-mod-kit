@@ -9,7 +9,7 @@ It does not patch gameplay, register Stellar Blade-specific hooks, ship generate
 - Target game: Stellar Blade PC.
 - Engine assumption: Unreal Engine 4.26 or 4.26.2.
 - Packaging assumption: Io Store-style cooked content (`.utoc`/`.ucas`) with pak-side metadata, based on current public PC modding practice.
-- Loader assumption: UE4SS-compatible Bouldy V2 shim deployed in the game's Win64 binary directory.
+- Loader assumption: UE4SS-compatible Bouldy V3 shim deployed in the game's Win64 binary directory.
 - Runtime scope: reconnaissance only. All concrete hook targets, offsets, and object paths must come from captured discovery output.
 
 ## Build
@@ -61,10 +61,31 @@ Place the line before UE4SS's built-in keybind section in `mods.txt` if load ord
 At initialization, the mod requests discovery candidates for combat-related terms such as parry, dodge, evade, guard, damage, hit reaction, stagger, lock-on, enemy combatants, input windows, and attack intent. Matching candidates are exported on the `stellar_blade.combat_recon` channel as stable JSON-style records:
 
 ```json
-{"kind":4,"name":"ExampleParryWindow","path":"/Script/Example","owner":"ExampleOwner","flags":0}
+{"schema_version":2,"kind":4,"name":"ExampleParryWindow","path":"/Script/Example","owner":"ExampleOwner","flags":0,"chunk_index":12,"object_index":3456}
 ```
 
 This output is evidence for future hook design. It is not a statement that the named example exists in Stellar Blade.
+
+The C++ adapter persists raw scan candidates and Rust-filtered exports to:
+
+```text
+Mods/StellarBladeBouldyRecon/data/recon.sqlite3
+```
+
+Tables:
+
+- `scan_runs`: one row per mod startup scan session.
+- `candidates`: every raw metadata-only candidate seen by the C++ scan.
+- `exports`: Rust-filtered combat records sent through `export_record`.
+
+Local C++ validation:
+
+```bash
+nix develop
+cmake -S loader/ue4ss-cpp -B target/ue4ss-cpp -G Ninja
+cmake --build target/ue4ss-cpp
+ctest --test-dir target/ue4ss-cpp --output-on-failure
+```
 
 ## Safety
 

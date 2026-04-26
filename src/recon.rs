@@ -82,13 +82,20 @@ pub fn is_combat_candidate(candidate: &DiscoveryCandidate) -> bool {
 /// Format a stable JSON-style candidate record without adding a JSON dependency.
 pub fn candidate_record_json(candidate: &DiscoveryCandidate) -> String {
     format!(
-        "{{\"kind\":{},\"name\":{},\"path\":{},\"owner\":{},\"flags\":{}}}",
+        "{{\"schema_version\":{},\"kind\":{},\"name\":{},\"path\":{},\"owner\":{},\"flags\":{},\"chunk_index\":{},\"object_index\":{}}}",
+        candidate.schema_version,
         candidate.kind,
         json_string(candidate.name.as_deref()),
         json_string(candidate.path.as_deref()),
         json_string(candidate.owner.as_deref()),
-        candidate.flags
+        candidate.flags,
+        json_i32(candidate.chunk_index),
+        json_i32(candidate.object_index)
     )
+}
+
+fn json_i32(value: Option<i32>) -> String {
+    value.map_or_else(|| "null".to_owned(), |value| value.to_string())
 }
 
 fn json_string(value: Option<&str>) -> String {
@@ -135,6 +142,9 @@ mod tests {
             path: Some("/Script/SB.PlayerCombatComponent".to_owned()),
             owner: Some("Eve".to_owned()),
             flags: 0,
+            schema_version: 2,
+            chunk_index: Some(1),
+            object_index: Some(24),
         };
         assert!(is_combat_candidate(&candidate));
     }
@@ -147,6 +157,9 @@ mod tests {
             path: Some("/Script/SB.WorldLighting".to_owned()),
             owner: Some("Environment".to_owned()),
             flags: 0,
+            schema_version: 2,
+            chunk_index: Some(2),
+            object_index: Some(48),
         };
         assert!(!is_combat_candidate(&candidate));
     }
@@ -159,10 +172,13 @@ mod tests {
             path: Some("/Script/SB\\Combat".to_owned()),
             owner: None,
             flags: 7,
+            schema_version: 2,
+            chunk_index: Some(3),
+            object_index: None,
         };
         assert_eq!(
             candidate_record_json(&candidate),
-            "{\"kind\":4,\"name\":\"Parry\\\"Window\",\"path\":\"/Script/SB\\\\Combat\",\"owner\":null,\"flags\":7}"
+            "{\"schema_version\":2,\"kind\":4,\"name\":\"Parry\\\"Window\",\"path\":\"/Script/SB\\\\Combat\",\"owner\":null,\"flags\":7,\"chunk_index\":3,\"object_index\":null}"
         );
     }
 }

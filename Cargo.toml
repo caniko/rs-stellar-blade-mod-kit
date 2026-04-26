@@ -11,7 +11,7 @@ rust-version = "1.80"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-bouldy-runtime = { git = "ssh://git@codeberg.org/caniko/rs-bouldy.git", rev = "2bdebfd91ecb1bedd7fbe418983be89d3216990b" }
+bouldy-runtime = { git = "ssh://git@codeberg.org/caniko/rs-bouldy.git", rev = "ac6c06744423bbe7317642ac0ff9c0e6691c40a3" }
 
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"

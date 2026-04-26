@@ -38,7 +38,7 @@ fn run_scan_once(ctx: &mut ModContext) {
     }
 
     let Some(discovery) = ctx.discovery() else {
-        ctx.log("Bouldy discovery API unavailable; deploy with a V2 discovery shim");
+        ctx.log("Bouldy discovery API unavailable; deploy with a V3 discovery shim");
         return;
     };
 
