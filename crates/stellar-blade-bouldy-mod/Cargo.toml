@@ -1,0 +1,17 @@
+[package]
+name = "stellar-blade-bouldy-mod"
+version.workspace = true
+description = "Bouldy reconnaissance modkit for Stellar Blade combat discovery"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bouldy-runtime = { path = "../../vendor/bouldy/crates/bouldy-runtime" }
+
+[lints]
+workspace = true

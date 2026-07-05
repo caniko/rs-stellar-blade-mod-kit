@@ -1,0 +1,11 @@
+[package]
+name = "modkit-tools"
+version.workspace = true
+description = "Offline analysis tools for the Stellar Blade Bouldy modkit"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true

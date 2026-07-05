@@ -1,4 +1,4 @@
-//! Combat reconnaissance filters and stable record formatting.
+//! Combat reconnaissance filters.
 
 use bouldy_runtime::{
     DiscoveryCandidate, DiscoveryContext, DiscoveryQuery, DISCOVERY_KIND_CLASS,
@@ -39,17 +39,7 @@ const EXPORT_CHANNEL: &str = "stellar_blade.combat_recon";
 /// Scan and export combat-related discovery candidates.
 pub fn scan_combat_candidates(discovery: DiscoveryContext) -> usize {
     let query = combat_query();
-    let mut exported = 0usize;
-
-    discovery.scan(&query, |candidate| {
-        if is_combat_candidate(&candidate) {
-            discovery.export_record(EXPORT_CHANNEL, &candidate_record_json(&candidate));
-            exported = exported.saturating_add(1);
-        }
-        true
-    });
-
-    exported
+    discovery.scan_and_export_json_records(&query, EXPORT_CHANNEL, is_combat_candidate)
 }
 
 /// Build the default combat candidate query.
@@ -66,57 +56,7 @@ pub fn combat_query() -> DiscoveryQuery {
 
 /// Return whether a candidate looks relevant to combat-loop discovery.
 pub fn is_combat_candidate(candidate: &DiscoveryCandidate) -> bool {
-    let haystack = [
-        candidate.name.as_deref().unwrap_or_default(),
-        candidate.path.as_deref().unwrap_or_default(),
-        candidate.owner.as_deref().unwrap_or_default(),
-    ]
-    .join(" ")
-    .to_ascii_lowercase();
-
-    COMBAT_SEARCH_TERMS
-        .iter()
-        .any(|term| haystack.contains(&term.to_ascii_lowercase()))
-}
-
-/// Format a stable JSON-style candidate record without adding a JSON dependency.
-pub fn candidate_record_json(candidate: &DiscoveryCandidate) -> String {
-    format!(
-        "{{\"schema_version\":{},\"kind\":{},\"name\":{},\"path\":{},\"owner\":{},\"flags\":{},\"chunk_index\":{},\"object_index\":{}}}",
-        candidate.schema_version,
-        candidate.kind,
-        json_string(candidate.name.as_deref()),
-        json_string(candidate.path.as_deref()),
-        json_string(candidate.owner.as_deref()),
-        candidate.flags,
-        json_i32(candidate.chunk_index),
-        json_i32(candidate.object_index)
-    )
-}
-
-fn json_i32(value: Option<i32>) -> String {
-    value.map_or_else(|| "null".to_owned(), |value| value.to_string())
-}
-
-fn json_string(value: Option<&str>) -> String {
-    match value {
-        Some(value) => {
-            let escaped = value
-                .chars()
-                .flat_map(|ch| match ch {
-                    '"' => "\\\"".chars().collect::<Vec<_>>(),
-                    '\\' => "\\\\".chars().collect::<Vec<_>>(),
-                    '\n' => "\\n".chars().collect::<Vec<_>>(),
-                    '\r' => "\\r".chars().collect::<Vec<_>>(),
-                    '\t' => "\\t".chars().collect::<Vec<_>>(),
-                    ch if ch.is_control() => " ".chars().collect::<Vec<_>>(),
-                    ch => vec![ch],
-                })
-                .collect::<String>();
-            format!("\"{escaped}\"")
-        }
-        None => "null".to_owned(),
-    }
+    candidate.matches_any_term(COMBAT_SEARCH_TERMS.iter().copied())
 }
 
 #[cfg(test)]
@@ -177,7 +117,7 @@ mod tests {
             object_index: None,
         };
         assert_eq!(
-            candidate_record_json(&candidate),
+            candidate.record_json(),
             "{\"schema_version\":2,\"kind\":4,\"name\":\"Parry\\\"Window\",\"path\":\"/Script/SB\\\\Combat\",\"owner\":null,\"flags\":7,\"chunk_index\":3,\"object_index\":null}"
         );
     }

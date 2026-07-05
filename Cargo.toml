@@ -1,21 +1,24 @@
-[package]
-name = "stellar-blade-bouldy-mod"
+[workspace]
+members = [
+    "crates/modkit-tools",
+    "crates/stellar-blade-bouldy-mod",
+]
+exclude = ["vendor/bouldy"]
+resolver = "2"
+
+[workspace.package]
 version = "0.1.0"
-description = "Bouldy reconnaissance modkit for Stellar Blade combat discovery"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "ssh://git@codeberg.org/caniko/rs-stellar-blade-mod-kit.git"
 rust-version = "1.80"
 
-[lib]
-crate-type = ["cdylib", "rlib"]
-
-[dependencies]
-bouldy-runtime = { git = "ssh://git@codeberg.org/caniko/rs-bouldy.git", rev = "ac6c06744423bbe7317642ac0ff9c0e6691c40a3" }
-
-[lints.rust]
+[workspace.lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
 missing_docs = "warn"
 
-[lints.clippy]
+[workspace.lints.clippy]
 undocumented_unsafe_blocks = "deny"
+
+[workspace.metadata.crane]
+name = "stellar-blade-bouldy-mod"

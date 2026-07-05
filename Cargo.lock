@@ -5,7 +5,6 @@ version = 3
 [[package]]
 name = "bouldy-macros"
 version = "0.1.0"
-source = "git+ssh://git@codeberg.org/caniko/rs-bouldy.git?rev=ac6c06744423bbe7317642ac0ff9c0e6691c40a3#ac6c06744423bbe7317642ac0ff9c0e6691c40a3"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -15,7 +14,6 @@ dependencies = [
 [[package]]
 name = "bouldy-runtime"
 version = "0.1.0"
-source = "git+ssh://git@codeberg.org/caniko/rs-bouldy.git?rev=ac6c06744423bbe7317642ac0ff9c0e6691c40a3#ac6c06744423bbe7317642ac0ff9c0e6691c40a3"
 dependencies = [
  "bouldy-macros",
  "bouldy-sys",
@@ -24,7 +22,10 @@ dependencies = [
 [[package]]
 name = "bouldy-sys"
 version = "0.1.0"
-source = "git+ssh://git@codeberg.org/caniko/rs-bouldy.git?rev=ac6c06744423bbe7317642ac0ff9c0e6691c40a3#ac6c06744423bbe7317642ac0ff9c0e6691c40a3"
+
+[[package]]
+name = "modkit-tools"
+version = "0.1.0"
 
 [[package]]
 name = "proc-macro2"

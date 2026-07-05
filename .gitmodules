@@ -1,0 +1,3 @@
+[submodule "vendor/bouldy"]
+	path = vendor/bouldy
+	url = ssh://git@codeberg.org/caniko/rs-bouldy.git

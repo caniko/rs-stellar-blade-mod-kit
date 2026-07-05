@@ -10,9 +10,16 @@
 
 # Local-only game, UE4SS, and generated Unreal data.
 /game/
+/local/
 /dumps/
 /sdk/
 /ue-project/
+/extracted/
+/extracted-assets/
+/manifests/
+*.sqlite
+*.sqlite3
+*.db
 *.pak
 *.ucas
 *.utoc
