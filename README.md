@@ -1,5 +1,11 @@
 # Stellar Blade Bouldy Modkit
 
+<!-- simit:badges:start -->
+
+![CI](https://img.shields.io/badge/CI-managed-2088ff) [![crates.io](https://img.shields.io/badge/crates.io-ready-f46623)](https://crates.io/crates/modkit-tools)
+
+<!-- simit:badges:end -->
+
 This repository contains a Bouldy-based reconnaissance modkit for the PC release of Stellar Blade. The first version discovers combat-related Unreal symbols through a generic Bouldy discovery API and exports candidate records for later analysis.
 
 It does not patch gameplay, register Stellar Blade-specific hooks, ship generated SDKs, include extracted game assets, bypass anti-cheat, or support online-play modification.
