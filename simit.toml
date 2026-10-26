@@ -1,6 +1,7 @@
 [ci]
-provider = "crow"
-platform = "forgejo"
+push_branches = ["trunk", "simit/update/**"]
+provider = "actions"
+platform = "github"
 runtime = "nix"
-runner = "codefloe-global"
+runner = "ubuntu-24.04"
 workspace = true
