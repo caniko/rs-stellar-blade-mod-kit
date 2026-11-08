@@ -5,3 +5,4 @@ platform = "github"
 runtime = "nix"
 runner = "ubuntu-24.04"
 workspace = true
+extra_setup = ["git submodule update --init vendor/bouldy"]
