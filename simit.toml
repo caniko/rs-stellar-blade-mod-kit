@@ -5,4 +5,6 @@ platform = "github"
 runtime = "nix"
 runner = "ubuntu-24.04"
 workspace = true
-extra_setup = ["git submodule update --init vendor/bouldy"]
+# self.submodules makes flake evals refetch the checkout by rev, which needs
+# full history; the vendored bouldy crates live in a submodule.
+extra_setup = ["git fetch --unshallow --quiet origin", "git submodule update --init vendor/bouldy"]
