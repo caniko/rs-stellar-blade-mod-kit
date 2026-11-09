@@ -6,11 +6,14 @@
   nixConfig = {
     extra-substituters = ["https://attic.candee.baby/harbor-macos-sdk"];
     extra-trusted-public-keys = [
-      "harbor-macos-sdk:ci7MNMkHDqdeTS4aKwzDNEJ1175AbpVUypTRjCJoHDk="
+      "harbor-macos-sdk:MLRX9qZASKwDh48UWON67cvYxfEbqvjfIZQmGwt1v1E="
     ];
   };
 
   inputs = {
+    # Vendored path dependencies (vendor/bouldy) are Git submodules.
+    self.submodules = true;
+
     rs-harbor.url = "git+https://github.com/caniko/harbor-rs.git?ref=trunk&rev=05cc4f162b55fa904b687db1821e2463fa813e50";
 
     rs-harbor-macos-sdk-pin.url = "git+ssh://git@github.com/caniko/harbor-macos-sdk-pin.git";
