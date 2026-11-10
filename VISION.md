@@ -26,8 +26,9 @@ public modding scene is not evidence.
   `candidates`, and Rust-filtered `exports` into a local SQLite database.
 - Package inventories, extracted assets, dumps, SDKs, `.usmap` files, and all
   generated game data stay local and untracked.
-- The build is strict about unsafe code: `unsafe_op_in_unsafe_fn`,
-  `undocumented_unsafe_blocks`, and `missing_docs` are enforced workspace lints.
+- The build is strict about unsafe code: `unsafe_op_in_unsafe_fn` and
+  `undocumented_unsafe_blocks` are denied workspace lints, and `missing_docs`
+  warns.
 - Bouldy is a pinned submodule and UE4SS is pinned through the vendored Bouldy
   flake, so the runtime adapter and the framework move together.
 
@@ -52,9 +53,10 @@ reconnaissance only.
 
 ## Direction
 
-Recent commits add the SQLite-backed recon adapter and then harden the probe
-tools and their error handling. There is no roadmap file; the direction visible
-in the code is more faithful offline evidence before any hook work.
+Recent commits add the SQLite-backed recon adapter and split the offline probe
+tools into a separate workspace crate with dedicated error types. There is no
+roadmap file; the direction visible in the code is more faithful offline
+evidence before any hook work.
 
 ## Place in the fleet
 
