@@ -2,7 +2,7 @@
 
 <!-- simit:badges:start -->
 
-![CI](https://img.shields.io/badge/CI-managed-2088ff) [![crates.io](https://img.shields.io/badge/crates.io-publishable-f46623)](https://crates.io/crates/modkit-tools)
+![CI](https://img.shields.io/badge/CI-managed-2088ff)
 
 <!-- simit:badges:end -->
 
